@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SenGo — Transit App Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fafaf7;
+      --text: #111827;
+      --text-muted: #878787;
+      --section-label: #736056;
+      --accent: #c04028;
+      --blue: #4b72a2;
+      --card-bg: #f7f7f7;
+      --border: #ececec;
+      --border-strong: #d2d2d2;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      font-family: 'Albert Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ─── Hero – full viewport width ─── */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      /* maintain 1920×810 aspect ratio so sides never crop */
+      height: min(42.19vw, 810px);
+      overflow: hidden;
+      background: #c4a882;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .hero-logo {
+      position: absolute;
+      top: 34px;
+      right: 48px;
+      z-index: 10;
+      width: 64px;
+    }
+    .hero-logo img { width: 100%; display: block; }
+
+    .hero-phones {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      padding-top: 40px;
+    }
+
+    .hero-phone-wrap { flex-shrink: 0; }
+    .hero-phone-wrap.left  { transform: rotate(-5.2deg); margin-top: 60px; }
+    .hero-phone-wrap.right { transform: rotate(7.2deg);  margin-top: 60px; }
+
+    .phone-device {
+      width: 243px;
+      height: 503px;
+      border-radius: 40px;
+      background: #111;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .phone-screen {
+      position: absolute;
+      inset: 3px;
+      border-radius: 37px;
+      overflow: hidden;
+      background: #1c1c1e;
+    }
+
+    .phone-screen img,
+    .phone-screen video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-phone-img {
+      height: 503px;
+      width: auto;
+      display: block;
+    }
+
+    /* ─── Content wrap (below hero) ─── */
+    .content-wrap {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    /* ─── Sidebar ─── */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      width: 248px;
+      min-width: 248px;
+      height: 100vh;
+      padding: 48px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .back-btn:hover { opacity: 1; }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .nav-list li a {
+      display: block;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 2.4;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-list li a:hover { color: var(--text); }
+    .nav-list li a.active {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ─── Main content ─── */
+    main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    section {
+      padding: 64px 80px 72px 80px;
+      border-bottom: 1px solid var(--border);
+      max-width: 1200px;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    section:last-child { border-bottom: none; }
+
+    .section-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--section-label);
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+
+    h3 {
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    p { font-size: 16px; line-height: 1.8; }
+
+    /* ─── Section 1 : Overview ─── */
+    .overview-header {
+      margin-bottom: 48px;
+    }
+    .meta-table {
+      max-width: 1200px;
+      margin-right: auto;
+      border-top: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+    .meta-row {
+      display: flex;
+      align-items: right;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      padding: 11px 16px;
+    }
+    .meta-key {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+      flex-shrink: 0;
+    }
+    .meta-value {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-align: right;
+      flex: 1;
+    }
+
+    .overview-title {
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      max-width: 680px;
+    }
+
+    .overview-body {
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 680px;
+    }
+
+    /* ─── Section 2 : Visual Language ─── */
+    .goals-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 21px;
+      padding: 24px 28px;
+      margin-bottom: 60px;
+    }
+    .goals-title {
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+    .goals-list {
+      list-style: disc;
+      padding-left: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .goals-list li {
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .archetype-grid {
+      display: grid;
+      grid-template-columns: 1fr 440px;
+      gap: 48px;
+      align-items: start;
+      margin-bottom: 64px;
+    }
+
+    .archetype-body {
+      font-size: 16px;
+      line-height: 1.8;
+    }
+    .archetype-body p { margin-bottom: 16px; }
+    .archetype-body ul {
+      padding-left: 22px;
+      margin-top: 4px;
+    }
+    .archetype-body li { line-height: 1.75; margin-bottom: 4px; }
+
+    .archetype-img {
+      width: 100%;
+      border-radius: 16px;
+      display: block;
+    }
+
+    /* From archetype to visuals */
+    .from-archetype {
+      text-align: center;
+      padding: 56px 0 48px;
+      border-top: 1px solid var(--border);
+    }
+    .from-archetype h2 {
+      max-width: 640px;
+      margin: 0 auto 20px;
+    }
+    .from-archetype p {
+      max-width: 600px;
+      margin: 0 auto;
+      color: var(--text);
+    }
+
+    /* Brand color */
+    .brand-color-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 64px;
+      align-items: start;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+    .brand-color-body {
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 560px;
+      margin-bottom: 24px;
+    }
+    .brand-color-swatch {
+      display: inline-flex;
+      flex-direction: column;
+      border-radius: 9px;
+      overflow: hidden;
+      border: 1px solid var(--border-strong);
+      width: 80px;
+    }
+    .brand-color-block { height: 72px; }
+    .brand-color-hex {
+      padding: 5px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      background: #f8f8f8;
+      font-family: 'Inter', sans-serif;
+    }
+    .brand-color-img {
+      width: 340px;
+      border-radius: 16px;
+      display: block;
+    }
+
+    /* Complementary color */
+    .complement-section {
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+    .complement-grid {
+      display: grid;
+      grid-template-columns: 1fr 480px;
+      gap: 40px;
+      align-items: start;
+    }
+    .complement-grid .brand-color-img {
+      width: 100%;
+    }
+    .complement-body {
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 1000px;
+      margin-bottom: 24px;
+    }
+
+    /* Typography section */
+    .typography-section {
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+    .typography-grid {
+      display: grid;
+      grid-template-columns: 1fr 310px;
+      gap: 64px;
+      align-items: start;
+    }
+    .typography-body {
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 560px;
+    }
+    
+    .typography-card img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+
+    /* Motion section */
+    .motion-section {
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+    .motion-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 64px;
+      align-items: center;
+    }
+    .motion-body {
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 640px;
+    }
+    .motion-img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+      box-shadow: 6px 4px 8px rgba(0,0,0,0.12);
+    }
+
+    /* ─── Section 3 : Core Flows ─── */
+    .flow-intro {
+      text-align: center;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+    .flow-intro h2 { max-width: 640px; margin: 0 auto 20px; }
+    .flow-intro p { max-width: 560px; margin: 0 auto; }
+
+    .flow-item {
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: 48px;
+      align-items: center;
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .flow-text h3 { font-size: 22px; font-weight: 600; margin-bottom: 14px; }
+    .flow-text p { font-size: 16px; line-height: 1.8; max-width: 540px; }
+
+    .flow-phone-wrap { display: flex; justify-content: center; }
+
+    .flow-phone {
+      width: 188px;
+      height: 388px;
+      border-radius: 34px;
+      background: #111;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .flow-phone-inner {
+      position: absolute;
+      inset: 3px;
+      border-radius: 31px;
+      background: #1c1c1e;
+      overflow: hidden;
+    }
+    .flow-phone-inner video,
+    .flow-phone-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ─── Section 4 : Usability Testing ─── */
+    .usability-desc {
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 680px;
+      margin-bottom: 48px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    .insight-block { margin-bottom: 56px; }
+
+    .insight-label {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .insight-text {
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 680px;
+      margin-bottom: 32px;
+    }
+
+    .ba-row-wrap {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .ba-row-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .ba-row-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      padding: 30px 80px;
+    }
+
+    .ba-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ba-label {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .phone-frame-wrap {
+      width: 198px;
+      height: 406px;
+      position: relative;
+    }
+    .phone-frame-wrap .pf-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+    .phone-frame-wrap .pf-screen {
+      position: absolute;
+      top: 10px;
+      left: 9px;
+      width: calc(100% - 18px);
+      height: calc(100% - 20px);
+      object-fit: cover;
+      border-radius: 11px;
+    }
+
+    .solution-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 21px;
+      padding: 20px 24px;
+      max-width: 700px;
+    }
+    .solution-card p { font-size: 16px; line-height: 1.8; }
+    .solution-card strong { font-weight: 600; }
+
+    /* ─── Section 5 : Result ─── */
+    .result-heading {
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1.2;
+      max-width: 640px;
+      margin-bottom: 54px;
+    }
+    .result-body {
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 760px;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 960px) {
+      .sidebar { display: none; }
+      main { flex: 1; }
+      section { padding: 48px 28px; }
+
+      .hero-section { height: 520px; }
+      .phone-device { width: 160px; height: 330px; border-radius: 28px; }
+      .phone-screen { border-radius: 25px; }
+      .hero-phone-wrap.left,
+      .hero-phone-wrap.right { margin-top: 30px; }
+
+      .archetype-grid,
+      .brand-color-grid,
+      .complement-grid,
+      .typography-grid,
+      .motion-grid { grid-template-columns: 1fr; }
+
+      .brand-color-img { width: 100%; }
+      .flow-item { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 1200px) {
+      section { padding: 56px 60px 60px 52px; }
+      .archetype-grid { grid-template-columns: 1fr 320px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── Hero — full viewport width ─── -->
+<div class="hero-section">
+  <img class="hero-bg" src="hero.png" alt="SenGo hero" />
+
+  <!-- Logo top right -->
+  <div class="hero-logo">
+    <img src="logo.png" alt="Viktoriia Buksha" />
+  </div>
+
+  <!-- Three phone mockups -->
+  <div class="hero-phones">
+    <!-- Left phone: rotated, image already includes frame -->
+    <div class="hero-phone-wrap left">
+      <img src="iphone1.png" class="hero-phone-img" alt="SenGo app screenshot" />
+    </div>
+
+    <!-- Center phone: active-nav video -->
+    <div class="hero-phone-wrap">
+      <div class="phone-device">
+        <div class="phone-screen">
+          <video autoplay loop muted playsinline>
+            <source src="active-nav.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right phone: rotated, image already includes frame -->
+    <div class="hero-phone-wrap right">
+      <img src="iphone2.png" class="hero-phone-img" alt="SenGo app screenshot" />
+    </div>
+  </div>
+</div>
+
+
+<div class="content-wrap">
+
+<!-- ─── Sidebar ─── -->
+<aside class="sidebar">
+  <a href="#" class="back-btn">← Back</a>
+  <nav>
+    <ul class="nav-list">
+      <li><a href="#overview" class="active">Project overview</a></li>
+      <li><a href="#visual-language">Visual language</a></li>
+      <li><a href="#core-flows">Core Flows</a></li>
+      <li><a href="#usability-testing">Usability Testing</a></li>
+      <li><a href="#result">Result</a></li>
+    </ul>
+  </nav>
+</aside>
+
+
+<!-- ─── Main ─── -->
+<main>
+
+  <!-- ════════════════════════════════════════
+       SECTION 1 — PROJECT OVERVIEW
+  ════════════════════════════════════════ -->
+  <section id="overview">
+
+    <div class="overview-header">
+      <span class="section-label">Project Overview</span>
+      <h2 class="overview-title">Making city exploration effortless with&nbsp;<strong>SenGo</strong></h2>
+      <p class="overview-body">
+        <strong>SenGo</strong> is a transit companion for tourists in Kyoto — designed to make public
+        transport, complex fare rules, and real-time travel guidance feel understandable from the first screen.
+      </p>
+    </div>
+
+    <!-- Meta table — right-aligned -->
+    <div class="meta-table">
+      <div class="meta-row">
+        <span class="meta-key">Length</span>
+        <span class="meta-value">3 Months</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key">Role</span>
+        <span class="meta-value">UX/UI Designer</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key">Contribution</span>
+        <span class="meta-value">Visual Design · UX · UI · Prototype · Usability Testing</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key">Domain</span>
+        <span class="meta-value">Travel</span>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       SECTION 2 — VISUAL LANGUAGE
+  ════════════════════════════════════════ -->
+  <section id="visual-language">
+
+    <!-- Goals card -->
+    <div class="goals-card">
+      <p class="goals-title">Goals</p>
+      <ul class="goals-list">
+        <li>Define a clear visual language — using color and typography to create a calm and approachable experience.</li>
+        <li>Create design concept — bring the idea to life with a clear look and feel and a consistent layout approach.</li>
+        <li>Validate the core user flow with users — check that people can find a route, buy tickets and navigate without confusion.</li>
+      </ul>
+    </div>
+
+    <span class="section-label">Visual Language</span>
+
+    <!-- Archetype -->
+    <div class="archetype-grid">
+      <div>
+        <h2>Archetype</h2>
+        <div class="archetype-body">
+          <p>
+            Before choosing the visual style, I first wanted to understand how SenGo should feel. I reviewed
+            the existing UX documentation and used the Brand Archetypes framework to define this direction.
+            Across the artifacts, the strongest recurring qualities were <strong>calming, guiding, and trustworthy.</strong>
+          </p>
+          <p>
+            <strong>The Caregiver archetype</strong> emerged as the strongest match:
+          </p>
+          <ul>
+            <li>Supports without overwhelming</li>
+            <li>Leads without pushing</li>
+            <li>Puts the user's comfort first</li>
+          </ul>
+          <p style="margin-top: 16px;">This became the foundation for the visual direction that followed.</p>
+        </div>
+      </div>
+      <div>
+        <img class="archetype-img" src="composition-archetype.png" alt="Archetype visualization" />
+      </div>
+    </div>
+
+    <!-- From archetype to visuals -->
+    <div class="from-archetype">
+      <h2>From archetype to visuals</h2>
+      <p>Once the archetype was set, I translated its qualities into a visual direction that feels calm, guiding, trustworthy, and friendly. Each visual decision was made to support this feeling and create a consistent experience across the app.</p>
+    </div>
+
+    <!-- Brand color -->
+    <div class="brand-color-grid">
+      <div>
+        <h2>Brand color inspired by Kyoto's culture</h2>
+        <p class="brand-color-body">
+          The accent color was inspired by Kyoto's traditional torii gates. I chose vermilion because it
+          is strongly associated with Japanese culture and creates a recognizable connection to Kyoto while
+          remaining highly visible for important actions.
+        </p>
+
+      </div>
+      <div>
+        <img class="brand-color-img" src="pic composition1.png" alt="Vermilion torii gate composition" />
+      </div>
+    </div>
+
+    <!-- Complementary supporting color -->
+    <div class="complement-section">
+      <div class="complement-grid">
+        <div>
+          <h2>A complementary supporting color</h2>
+          <p class="complement-body">
+            To balance the warm vermilion, I introduced a cool supporting blue. The combination creates
+            a balance between the warm cultural reference and the calm, trustworthy feeling I wanted for SenGo.
+          </p>
+        </div>
+        <div>
+          <img class="brand-color-img" src="pic composition.png" alt="Blue supporting color composition" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Typography -->
+    <div class="typography-section">
+      <div class="typography-grid">
+        <div>
+          <p class="typography-body">
+            I chose a clean sans‑serif typeface to keep route details readable at a glance, especially while moving.
+            Clear hierarchy helps users quickly spot the next step, time, and key actions.
+          </p>
+        </div>
+        <div class="typography-card">
+          <img src="typography.png" alt="Typography scale" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Motion -->
+    <div class="motion-section">
+      <div class="motion-grid">
+        <div>
+          <h2>Motion</h2>
+          <p class="motion-body">
+            I kept motion subtle and functional, using smooth transitions to support feedback without
+            distracting users during navigation. I used Ease Out for these transitions because it creates
+            a smooth, natural-feeling movement as elements settle into their final state.
+          </p>
+        </div>
+        <div>
+          <img class="motion-img" src="EASE_OUT_CURVE.gif" alt="Ease out curve" />
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       SECTION 3 — CORE FLOWS
+  ════════════════════════════════════════ -->
+  <section id="core-flows">
+
+    <div class="flow-intro">
+      <span class="section-label">Design Concept</span>
+      <h2>From visual language to design concept</h2>
+      <p>With the visual direction defined, I moved on to the core user journey. I focused on the main user scenario and designed the complete flow, with five key moments highlighted below.</p>
+    </div>
+
+    <!-- Home Discovery -->
+    <div class="flow-item" style="border-top: none;">
+      <div class="flow-text">
+        <h3>Home Discovery</h3>
+        <p>A tourist doesn't just need a list of routes — they also need to understand where each route goes. Swiping through the route cards highlights the corresponding path on the map, making route selection more visual.</p>
+      </div>
+      <div class="flow-phone-wrap">
+        <div class="flow-phone">
+          <div class="flow-phone-inner">
+            <video autoplay loop muted playsinline>
+              <source src="home-scroll.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Routes Catalogue -->
+    <div class="flow-item">
+      <div class="flow-text">
+        <h3>Routes Catalogue</h3>
+        <p>I designed a catalogue of all available routes in the app. To help users quickly find what they're looking for, I created a simple filtering system where each filter can be selected with one tap and cleared just as quickly.</p>
+      </div>
+      <div class="flow-phone-wrap">
+        <div class="flow-phone">
+          <div class="flow-phone-inner">
+            <video autoplay loop muted playsinline>
+              <source src="catalogue.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Routes Details & Buying Tickets -->
+    <div class="flow-item">
+      <div class="flow-text">
+        <h3>Routes Details &amp; Buying Tickets</h3>
+        <p>Once a route is selected, users need enough information to decide whether it works for them and get the required tickets. I kept these steps within one flow and allowed users to purchase all tickets needed for a multi-transport route together.</p>
+      </div>
+      <div class="flow-phone-wrap">
+        <div class="flow-phone">
+          <div class="flow-phone-inner">
+            <video autoplay loop muted playsinline>
+              <source src="route-details.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Navigation -->
+    <div class="flow-item">
+      <div class="flow-text">
+        <h3>Active Navigation</h3>
+        <p>Once the journey starts, the priority changes. Users need less information and faster access to guidance. So I focused the screen on the current journey and the next action, reducing the amount of information users need to process while moving.</p>
+      </div>
+      <div class="flow-phone-wrap">
+        <div class="flow-phone">
+          <div class="flow-phone-inner">
+            <video autoplay loop muted playsinline>
+              <source src="active-nav.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Show ticket while boarding -->
+    <div class="flow-item">
+      <div class="flow-text">
+        <h3>Show ticket while boarding</h3>
+        <p>And when it's time to board, the ticket is available directly from the navigation screen. This means users don't have to leave the journey or search for their ticket when they need it.</p>
+      </div>
+      <div class="flow-phone-wrap">
+        <div class="flow-phone">
+          <div class="flow-phone-inner">
+            <video autoplay loop muted playsinline>
+              <source src="boarding.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       SECTION 4 — USABILITY TESTING
+  ════════════════════════════════════════ -->
+  <section id="usability-testing">
+
+    <div style="text-align:center; margin-bottom: 0;">
+      <span class="section-label">Usability Testing</span>
+      <h2>Validating design concept</h2>
+    </div>
+    <p class="usability-desc">
+      I conducted usability testing to evaluate the core user scenario, focusing on route discovery,
+      filtering, ticket purchase, and navigation. Both participants were able to complete the main tasks,
+      while the testing revealed two usability issues in the filtering experience.
+    </p>
+
+    <!-- Insight 1 -->
+    <div class="insight-block">
+      <h3 class="insight-label">Insight 1</h3>
+      <p class="insight-text">
+        Users wanted to see exactly which filters they had selected on the main screen. In the first version,
+        a number badge showed how many filters were active, but it didn't tell users which filters they were.
+      </p>
+
+      <div class="ba-row-wrap">
+        <img class="ba-row-bg" src="Frame 16.png" alt="" />
+        <div class="ba-row-inner">
+          <div class="ba-item">
+            <div class="phone-frame-wrap">
+              <img class="pf-screen" src="https://www.figma.com/api/mcp/asset/61efbcb9-bb63-43ad-931f-8d41eeb1f0e1.png" alt="Before — filter badge" />
+              <img class="pf-frame" src="https://www.figma.com/api/mcp/asset/7e9da782-ed25-4c1e-8390-f51131ce0290.png" alt="" />
+            </div>
+            <span class="ba-label">Before</span>
+          </div>
+          <div class="ba-item">
+            <div class="phone-frame-wrap">
+              <img class="pf-screen" src="https://www.figma.com/api/mcp/asset/bcd275b8-d755-4a52-8992-c53bf8030762.png" alt="After — filter badge" />
+              <img class="pf-frame" src="https://www.figma.com/api/mcp/asset/7e9da782-ed25-4c1e-8390-f51131ce0290.png" alt="" />
+            </div>
+            <span class="ba-label">After</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="solution-card">
+        <p><strong>Solution</strong><br>I replaced the number badge with interactive filter chips that show the selected filters directly. This makes the current filter state easier to understand at a glance.</p>
+      </div>
+    </div>
+
+    <!-- Insight 2 -->
+    <div class="insight-block">
+      <h3 class="insight-label">Insight 2</h3>
+      <p class="insight-text">
+        Users found it difficult to scan transport types when they were presented mainly as text.
+        It took longer to identify the options, and it wasn't always clear which transport type was selected.
+      </p>
+
+      <div class="ba-row-wrap">
+        <img class="ba-row-bg" src="Frame 16.png" alt="" />
+        <div class="ba-row-inner">
+          <div class="ba-item">
+            <div class="phone-frame-wrap">
+              <img class="pf-screen" src="https://www.figma.com/api/mcp/asset/767c0444-cbe2-4ada-a701-e32a2b768a99.png" alt="Before — filter modal" />
+              <img class="pf-frame" src="https://www.figma.com/api/mcp/asset/7e9da782-ed25-4c1e-8390-f51131ce0290.png" alt="" />
+            </div>
+            <span class="ba-label">Before</span>
+          </div>
+          <div class="ba-item">
+            <div class="phone-frame-wrap">
+              <img class="pf-screen" src="https://www.figma.com/api/mcp/asset/e642a660-f0ed-4041-9360-767e4347800d.png" alt="After — filter modal" />
+              <img class="pf-frame" src="https://www.figma.com/api/mcp/asset/7e9da782-ed25-4c1e-8390-f51131ce0290.png" alt="" />
+            </div>
+            <span class="ba-label">After</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="solution-card">
+        <p><strong>Solution</strong><br>I redesigned the transport filters using icons with labels underneath. I also used color to make selected and unselected states visually distinct, and added a "Clear all" action for quickly removing all selections.</p>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       SECTION 5 — RESULT
+  ════════════════════════════════════════ -->
+  <section id="result">
+
+    <span class="section-label">Result</span>
+    <h2 class="result-heading">A complete visual concept and a tested end-to-end experience.</h2>
+    <p class="result-body">
+      I designed the screens for the complete key user scenario, from discovering a route to boarding the transport,
+      and developed the visual direction across the experience. Testing with two participants revealed two usability
+      issues, which I addressed before delivery.
+    </p>
+
+  </section>
+
+</main>
+
+</div><!-- /.content-wrap -->
+
+<!-- ─── Scroll spy ─── -->
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-list a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.nav-list a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
