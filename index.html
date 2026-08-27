@@ -28,23 +28,103 @@
       background: var(--bg);
       font-family: 'Albert Sans', sans-serif;
       color: var(--text);
-      display: flex;
       min-height: 100vh;
+    }
+
+    /* ─── Hero – full viewport width ─── */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      /* maintain 1920×810 aspect ratio so sides never crop */
+      height: min(42.19vw, 810px);
+      overflow: hidden;
+      background: #c4a882;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .hero-logo {
+      position: absolute;
+      top: 34px;
+      right: 48px;
+      z-index: 10;
+      width: 64px;
+    }
+    .hero-logo img { width: 100%; display: block; }
+
+    .hero-phones {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      padding-top: 40px;
+      padding-left: 124px;
+    }
+
+    .hero-phone-wrap { flex-shrink: 0; }
+    .hero-phone-wrap.left  { transform: rotate(-5.2deg); margin-top: 60px; }
+    .hero-phone-wrap.right { transform: rotate(7.2deg);  margin-top: 60px; }
+
+    .phone-device {
+      width: 243px;
+      height: 503px;
+      border-radius: 40px;
+      background: #111;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .phone-screen {
+      position: absolute;
+      inset: 3px;
+      border-radius: 37px;
+      overflow: hidden;
+      background: #1c1c1e;
+    }
+
+    .phone-screen img,
+    .phone-screen video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-phone-img {
+      height: 503px;
+      width: auto;
+      display: block;
+    }
+
+    /* ─── Content wrap (below hero) ─── */
+    .content-wrap {
+      display: flex;
+      align-items: flex-start;
     }
 
     /* ─── Sidebar ─── */
     .sidebar {
-      position: fixed;
+      position: sticky;
       top: 0;
-      left: 0;
       width: 248px;
+      min-width: 248px;
       height: 100vh;
       padding: 48px 32px;
       display: flex;
       flex-direction: column;
       gap: 40px;
-      z-index: 100;
       overflow-y: auto;
+      flex-shrink: 0;
     }
 
     .back-btn {
@@ -85,15 +165,17 @@
 
     /* ─── Main content ─── */
     main {
-      margin-left: 248px;
       flex: 1;
       min-width: 0;
     }
 
     section {
-      padding: 64px 80px 72px 64px;
+      padding: 96px 80px 96px 80px;
       border-bottom: 1px solid var(--border);
       max-width: 1200px;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
     }
     section:last-child { border-bottom: none; }
 
@@ -125,119 +207,45 @@
     p { font-size: 16px; line-height: 1.8; }
 
     /* ─── Section 1 : Overview ─── */
-    #overview { padding-top: 0; }
-
-    .hero-wrap {
-      width: 100%;
-      position: relative;
-      border-radius: 0 0 16px 16px;
-      overflow: hidden;
-      background: #c4a882;
+    .overview-header {
       margin-bottom: 48px;
     }
-
-    .hero-bg {
-      width: 100%;
-      display: block;
-      object-fit: cover;
-      max-height: 520px;
-      object-position: center top;
-    }
-
-    /* Phone mockups on hero */
-    .hero-phones {
-      position: absolute;
-      top: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: flex-start;
-      gap: 24px;
-    }
-
-    .hero-phone {
-      position: relative;
-      width: 116px;
-      height: 242px;
-      border-radius: 28px;
-      background: #111;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .hero-phone.wide { width: 122px; height: 252px; }
-
-    .hero-phone-inner {
-      position: absolute;
-      inset: 3px;
-      border-radius: 25px;
-      background: #1c1c1e;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Video placeholder styling */
-    .video-placeholder {
-      width: 100%;
-      height: 100%;
-      background: #1c1c1e;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      color: rgba(255,255,255,0.25);
-    }
-    .video-placeholder svg { width: 20px; height: 20px; opacity: 0.5; }
-    .video-placeholder span { font-size: 9px; font-family: 'Inter', sans-serif; letter-spacing: 0.04em; }
-
-    .hero-app-icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -60%);
-      width: 130px;
-      pointer-events: none;
-    }
-
-    /* Meta table */
     .meta-table {
-      max-width: 640px;
+      max-width: 1200px;
+      margin-right: auto;
       border-top: 1px solid var(--border);
-      margin-bottom: 64px;
+      margin-bottom: 0;
     }
     .meta-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 220px 1fr;
       border-bottom: 1px solid var(--border);
-      padding: 11px 16px;
+      padding: 14px 16px;
     }
     .meta-key {
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 500;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text);
     }
     .meta-value {
       font-size: 14px;
-      font-weight: 400;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       color: var(--text);
+      text-align: left;
+      flex: 1;
     }
 
     .overview-title {
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 600;
       line-height: 1.15;
       margin-bottom: 20px;
       max-width: 680px;
     }
-    .overview-title strong { font-weight: 700; }
 
     .overview-body {
       font-size: 16px;
@@ -269,229 +277,63 @@
       font-size: 16px;
       line-height: 1.7;
     }
-    .goals-list li strong { font-weight: 600; }
 
-    .vis-lang-grid {
+    .archetype-grid {
       display: grid;
-      grid-template-columns: 1fr 280px;
+      grid-template-columns: 1fr 440px;
       gap: 48px;
       align-items: start;
+      margin-bottom: 64px;
     }
 
     .archetype-body {
       font-size: 16px;
       line-height: 1.8;
-      max-width: 560px;
     }
-    .archetype-list {
+    .archetype-body p { margin-bottom: 16px; }
+    .archetype-body ul {
       padding-left: 22px;
-      margin-top: 6px;
+      margin-top: 4px;
     }
-    .archetype-list li { line-height: 1.75; margin-bottom: 2px; }
-    .blue { color: var(--blue); }
-    .vermilion { color: var(--accent); }
+    .archetype-body li { line-height: 1.75; margin-bottom: 4px; }
 
-    .vis-lang-right {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .vis-lang-image {
+    .archetype-img {
       width: 100%;
-      border-radius: 12px;
+      border-radius: 16px;
       display: block;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     }
 
-    /* Color rule + Typography mini cards */
-    .small-cards-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 40px;
-    }
-
-    .small-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 21px;
-      padding: 18px 20px;
-    }
-    .small-card-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #676767;
-      margin-bottom: 12px;
-    }
-
-    .color-rule-bar {
-      display: flex;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid var(--border-strong);
-      height: 56px;
-    }
-    .cr-60 {
-      flex: 6;
-      background: #eaf8ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-    }
-    .cr-30 {
-      flex: 3;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-      border-left: 1px solid var(--border-strong);
-    }
-    .cr-10 {
-      flex: 1;
-      background: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 500;
-      color: white;
-      border-left: 1px solid var(--border-strong);
-    }
-    .color-rule-caption {
-      font-size: 12px;
-      color: #676767;
+    /* From archetype to visuals */
+    .from-archetype {
       text-align: center;
-      margin-top: 8px;
+      padding: 56px 0 48px;
+    }
+    .from-archetype h2 {
+      max-width: 640px;
+      margin: 0 auto 20px;
+    }
+    .from-archetype p {
+      max-width: 600px;
+      margin: 0 auto;
+      color: var(--text);
     }
 
-    .typo-card-img {
-      width: 100%;
-      border-radius: 8px;
-      display: block;
-    }
-
-    /* ─── Design Library ─── */
-    .design-lib-inner {
-      padding-top: 48px;
-      border-top: 1px solid var(--border);
-      margin-top: 56px;
-    }
-
-    .design-lib-body {
-      font-size: 16px;
-      line-height: 1.8;
-      max-width: 560px;
-      margin-bottom: 40px;
-    }
-
-    .design-lib-cols {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: start;
-    }
-
-    .lib-subsection-title {
-      font-size: 22px;
-      font-weight: 500;
-      margin-bottom: 16px;
-    }
-
-    .color-system-img {
-      width: 100%;
-      border-radius: 12px;
-      display: block;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    }
-
-    /* Typography table */
-    .type-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    .type-table thead th {
-      font-family: 'Inter', sans-serif;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #4e4e4e;
-      padding: 10px 8px 8px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-    .type-table tbody tr { border-bottom: 1px solid #f0f0f0; }
-    .type-table tbody tr:last-child { border-bottom: none; }
-    .type-table tbody td {
-      padding: 9px 8px;
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      color: #68707a;
-    }
-    .type-table .td-name { color: #111827; font-weight: 500; }
-
-    /* Icons row */
-    .icons-section {
-      margin-top: 40px;
-    }
-    .icons-box {
-      background: white;
-      padding: 16px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      margin-top: 12px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-    .icon-img {
-      width: 28px;
-      height: 28px;
-      object-fit: contain;
-    }
-
-    /* Phone screenshot (design lib) */
-    .phone-screenshot-wrap {
-      display: flex;
-      justify-content: center;
-    }
-    .phone-screenshot {
-      width: 120px;
-      border-radius: 22px;
-      display: block;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-    }
-
-    /* ─── Brand Colour ─── */
-    .brand-colour-inner {
-      padding-top: 48px;
-      border-top: 1px solid var(--border);
-      margin-top: 56px;
-    }
-
-    .brand-colour-grid {
+    /* Brand color */
+    .brand-color-grid {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 48px;
+      gap: 64px;
       align-items: start;
+      padding-top: 48px;
+      margin-bottom: 48px;
     }
-
-    .brand-colour-body {
+    .brand-color-body {
       font-size: 16px;
       line-height: 1.8;
       max-width: 560px;
       margin-bottom: 24px;
     }
-
-    .vermilion-swatch {
+    .brand-color-swatch {
       display: inline-flex;
       flex-direction: column;
       border-radius: 9px;
@@ -499,11 +341,8 @@
       border: 1px solid var(--border-strong);
       width: 80px;
     }
-    .vermilion-color-block {
-      height: 72px;
-      background: var(--accent);
-    }
-    .vermilion-hex {
+    .brand-color-block { height: 72px; }
+    .brand-color-hex {
       padding: 5px 8px;
       font-size: 12px;
       font-weight: 600;
@@ -511,36 +350,106 @@
       background: #f8f8f8;
       font-family: 'Inter', sans-serif;
     }
+    .brand-color-img {
+      width: 340px;
+      border-radius: 16px;
+      display: block;
+    }
 
-    .torii-img {
-      width: 200px;
+    /* Complementary color */
+    .complement-section {
+      padding-top: 48px;
+      margin-bottom: 48px;
+    }
+    .complement-grid {
+      display: grid;
+      grid-template-columns: 1fr 480px;
+      gap: 40px;
+      align-items: start;
+    }
+    .complement-grid .brand-color-img {
+      width: 100%;
+    }
+    .complement-body {
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 1000px;
+      margin-bottom: 24px;
+    }
+
+    /* Typography section */
+    .typography-section {
+      padding-top: 48px;
+      margin-bottom: 48px;
+    }
+    .typography-grid {
+      display: grid;
+      grid-template-columns: 1fr 310px;
+      gap: 64px;
+      align-items: start;
+    }
+    .typography-body {
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 560px;
+    }
+    
+    .typography-card img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+
+    /* Motion section */
+    .motion-section {
+      padding-top: 48px;
+    }
+    .motion-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 64px;
+      align-items: center;
+    }
+    .motion-body {
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 640px;
+    }
+    .motion-img {
+      width: 100%;
       border-radius: 12px;
       display: block;
-      box-shadow: 6px 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 6px 4px 8px rgba(0,0,0,0.12);
     }
 
     /* ─── Section 3 : Core Flows ─── */
+    .flow-intro {
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+    .flow-intro .section-label { text-align: left; }
+    .flow-intro h2 { max-width: 640px; margin: 0 auto 20px; text-align: center; }
+    .flow-intro p { max-width: 560px; margin: 0 auto; text-align: center; }
+
     .flow-item {
       display: grid;
-      grid-template-columns: 1fr 200px;
+      grid-template-columns: 1fr 260px;
       gap: 48px;
       align-items: center;
-      padding: 48px 0;
+      padding: 64px 0;
       border-top: 1px solid var(--border);
     }
 
     .flow-text h3 { font-size: 22px; font-weight: 600; margin-bottom: 14px; }
     .flow-text p { font-size: 16px; line-height: 1.8; max-width: 540px; }
 
-    .flow-phone-wrap {
-      display: flex;
-      justify-content: center;
-    }
+    .flow-phone-wrap { display: flex; justify-content: center; }
 
     .flow-phone {
-      width: 188px;
-      height: 388px;
-      border-radius: 34px;
+      width: 248px;
+      height: 510px;
+      border-radius: 42px;
       background: #111;
       overflow: hidden;
       box-shadow: 0 8px 32px rgba(0,0,0,0.3);
@@ -552,92 +461,75 @@
     .flow-phone-inner {
       position: absolute;
       inset: 3px;
-      border-radius: 31px;
+      border-radius: 39px;
       background: #1c1c1e;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
-    .flow-phone img {
+    .flow-phone-inner video,
+    .flow-phone-inner img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    /* video placeholder - flow phone */
-    .vp-flow {
-      width: 100%;
-      height: 100%;
-      background: #1c1c1e;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      color: rgba(255,255,255,0.2);
-    }
-    .vp-flow svg { width: 24px; height: 24px; }
-    .vp-flow span {
-      font-size: 10px;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 0.06em;
-      text-align: center;
-      padding: 0 16px;
-    }
-
     /* ─── Section 4 : Usability Testing ─── */
-    #usability-testing h2 { margin-bottom: 10px; }
-
     .usability-desc {
       font-size: 16px;
       line-height: 1.8;
-      max-width: 560px;
+      max-width: 680px;
+      margin-bottom: 48px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    .insight-block { margin-bottom: 56px; }
+
+    .insight-label {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .insight-text {
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 680px;
       margin-bottom: 32px;
     }
 
-    .issue-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 48px;
+    .ba-row-wrap {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 20px;
     }
-
-    .issue-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 21px;
-      padding: 20px 24px;
+    .ba-row-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .ba-row-inner {
+      position: relative;
+      z-index: 1;
       display: flex;
-      align-items: center;
-    }
-    .issue-card p {
-      font-size: 15px;
-      line-height: 1.7;
-    }
-
-    /* Before / After */
-    .ba-pair {
-      margin-bottom: 48px;
-    }
-
-    .before-after-row {
-      display: flex;
-      gap: 20px;
-      justify-content: flex-start;
+      justify-content: center;
+      gap: 80px;
+      padding: 30px 80px;
     }
 
     .ba-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .ba-label {
       font-size: 15px;
       font-weight: 500;
-      color: var(--text);
     }
 
     .phone-frame-wrap {
@@ -663,58 +555,125 @@
       border-radius: 11px;
     }
 
-    .solution-block {
-      margin-top: 20px;
+    .solution-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 21px;
+      padding: 20px 24px;
+      max-width: 700px;
+      margin: 0 auto;
     }
-    .solution-label-text {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-    .solution-desc {
-      font-size: 16px;
-      line-height: 1.8;
-      max-width: 480px;
-    }
+    .solution-card p { font-size: 16px; line-height: 1.8; }
+    .solution-card strong { font-weight: 600; }
 
     /* ─── Section 5 : Result ─── */
     .result-heading {
       font-size: 26px;
       font-weight: 600;
       line-height: 1.2;
-      max-width: 600px;
-      margin-bottom: 24px;
+      max-width: 640px;
+      margin-bottom: 54px;
     }
     .result-body {
       font-size: 16px;
       line-height: 1.8;
-      max-width: 760px;
+      max-width: 1000px;
+    }
+
+    #result {
+      max-width: 100%;
+      padding-bottom: 300px;
+    }
+
+    /* ─── Bottom section ─── */
+    .bottom-section {
+      position: relative;
+      width: 100%;
+      height: min(36.67vw, 704px);
+      /* no overflow:hidden — phone overflows above */
+    }
+    .bottom-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .bottom-phone {
+      position: absolute;
+      top: -160px;
+      left: calc(248px + (100% - 248px) / 2);
+      transform: translateX(-50%);
     }
 
     /* ─── Responsive ─── */
     @media (max-width: 960px) {
       .sidebar { display: none; }
-      main { margin-left: 0; }
+      main { flex: 1; }
       section { padding: 48px 28px; }
-      .vis-lang-grid,
-      .design-lib-cols,
-      .brand-colour-grid,
-      .small-cards-row { grid-template-columns: 1fr; }
+
+      .hero-section { height: 520px; }
+      .phone-device { width: 160px; height: 330px; border-radius: 28px; }
+      .phone-screen { border-radius: 25px; }
+      .hero-phone-wrap.left,
+      .hero-phone-wrap.right { margin-top: 30px; }
+
+      .archetype-grid,
+      .brand-color-grid,
+      .complement-grid,
+      .typography-grid,
+      .motion-grid { grid-template-columns: 1fr; }
+
+      .brand-color-img { width: 100%; }
       .flow-item { grid-template-columns: 1fr; }
-      .issue-cards { grid-template-columns: 1fr; }
-      .hero-phones { gap: 12px; }
     }
 
     @media (max-width: 1200px) {
       section { padding: 56px 60px 60px 52px; }
+      .archetype-grid { grid-template-columns: 1fr 320px; }
     }
   </style>
 </head>
 <body>
+
+<!-- ─── Hero — full viewport width ─── -->
+<div class="hero-section">
+  <img class="hero-bg" src="hero.png" alt="SenGo hero" />
+
+  <!-- Logo top right -->
+  <div class="hero-logo">
+    <img src="logo.png" alt="Viktoriia Buksha" />
+  </div>
+
+  <!-- Three phone mockups -->
+  <div class="hero-phones">
+    <!-- Left phone: rotated, image already includes frame -->
+    <div class="hero-phone-wrap left">
+      <img src="iphone1.png" class="hero-phone-img" alt="SenGo app screenshot" />
+    </div>
+
+    <!-- Center phone: active-nav video -->
+    <div class="hero-phone-wrap">
+      <div class="phone-device">
+        <div class="phone-screen">
+          <video autoplay loop muted playsinline>
+            <source src="active-nav.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right phone: rotated, image already includes frame -->
+    <div class="hero-phone-wrap right">
+      <img src="iphone2.png" class="hero-phone-img" alt="SenGo app screenshot" />
+    </div>
+  </div>
+</div>
+
+
+<div class="content-wrap">
 
 <!-- ─── Sidebar ─── -->
 <aside class="sidebar">
@@ -730,6 +689,7 @@
   </nav>
 </aside>
 
+
 <!-- ─── Main ─── -->
 <main>
 
@@ -738,38 +698,16 @@
   ════════════════════════════════════════ -->
   <section id="overview">
 
-    <!-- Hero image -->
-    <div class="hero-wrap">
-      <img
-        class="hero-bg"
-        src="https://www.figma.com/api/mcp/asset/a80e5385-97c2-4ec0-bf89-812232d15218.png"
-        alt="SenGo — city of Kyoto hero"
-      />
-      <div class="hero-phones">
-        <div class="hero-phone">
-          <div class="hero-phone-inner">
-            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
-              <source src="Video2.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-        <img
-          class="hero-app-icon"
-          src="https://www.figma.com/api/mcp/asset/8597ab89-a33c-4ed0-a51a-bdf4ed171553.png"
-          alt="SenGo app icon"
-          style="position:relative;top:auto;left:auto;transform:none;width:90px;"
-        />
-        <div class="hero-phone wide">
-          <div class="hero-phone-inner">
-            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
-              <source src="Video5.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-      </div>
+    <div class="overview-header">
+      <span class="section-label">Project Overview</span>
+      <h2 class="overview-title">Making city exploration effortless with&nbsp;<strong>SenGo</strong></h2>
+      <p class="overview-body">
+        <strong>SenGo</strong> is a transit companion for tourists in Kyoto — designed to make public
+        transport, complex fare rules, and real-time travel guidance feel understandable from the first screen.
+      </p>
     </div>
 
-    <!-- Meta table -->
+    <!-- Meta table — right-aligned -->
     <div class="meta-table">
       <div class="meta-row">
         <span class="meta-key">Length</span>
@@ -781,17 +719,13 @@
       </div>
       <div class="meta-row">
         <span class="meta-key">Contribution</span>
-        <span class="meta-value">UX · UI · Design Library · Prototype · Usability Testing</span>
+        <span class="meta-value">Visual Design · UX · UI · Prototype · Usability Testing</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key">Domain</span>
+        <span class="meta-value">Travel</span>
       </div>
     </div>
-
-    <!-- Overview content -->
-    <span class="section-label">Project Overview</span>
-    <h2 class="overview-title">Making city exploration effortless&nbsp;with&nbsp;<strong>SenGo</strong></h2>
-    <p class="overview-body">
-      <strong>SenGo</strong> is a transit companion for tourists in Kyoto — designed to make public
-      transport, complex fare rules, and real-time travel guidance feel understandable from the first screen.
-    </p>
 
   </section>
 
@@ -805,167 +739,110 @@
     <div class="goals-card">
       <p class="goals-title">Goals</p>
       <ul class="goals-list">
-        <li><strong>Define a clear visual language</strong> — using color and typography to create a calm and approachable experience.</li>
-        <li><strong>Build a design library from scratch</strong> — including color tokens, typography, and reusable UI components.</li>
-        <li><strong>Design high-fidelity screens</strong> — using the library consistently across the whole app.</li>
-        <li><strong>Test the core user flow</strong> — from route discovery and ticket purchase to navigation and route completion.</li>
+        <li>Define a clear visual language — using color and typography to create a calm and approachable experience.</li>
+        <li>Create design concept — bring the idea to life with a clear look and feel and a consistent layout approach.</li>
+        <li>Validate the core user flow with users — check that people can find a route, buy tickets and navigate without confusion.</li>
       </ul>
     </div>
 
     <span class="section-label">Visual Language</span>
 
-    <!-- Archetype + color system -->
-    <div class="vis-lang-grid">
-      <div class="vis-lang-text">
+    <!-- Archetype -->
+    <div class="archetype-grid">
+      <div>
         <h2>Archetype</h2>
         <div class="archetype-body">
           <p>
-            The visual language is guided by the <strong>Caregiver archetype</strong> — supportive, calm, and trustworthy.
+            Before choosing the visual style, I first wanted to understand how SenGo should feel. I reviewed
+            the existing UX documentation and used the Brand Archetypes framework to define this direction.
+            Across the artifacts, the strongest recurring qualities were <strong>calming, guiding, and trustworthy.</strong>
           </p>
-          <ul class="archetype-list">
-            <li><span class="blue">Blue</span> carries the interactive layer with reliability.</li>
-            <li><span class="vermilion">Vermillion</span> appears only where the user needs clear direction.</li>
-            <li>The layout avoids noise so the complexity of the transit system stays invisible.</li>
-            <li>SF Pro — readable at any size, no personality of its own.</li>
+          <p>
+            <strong>The Caregiver archetype</strong> emerged as the strongest match:
+          </p>
+          <ul>
+            <li>Supports without overwhelming</li>
+            <li>Leads without pushing</li>
+            <li>Puts the user's comfort first</li>
           </ul>
-        </div>
-
-        <!-- small cards: color rule + typography -->
-        <div class="small-cards-row">
-          <div class="small-card">
-            <p class="small-card-label">60-30-10 color rule</p>
-            <div class="color-rule-bar">
-              <div class="cr-60">60%</div>
-              <div class="cr-30">30%</div>
-              <div class="cr-10">10%</div>
-            </div>
-            <p class="color-rule-caption">Neutral · Secondary · Accent</p>
-          </div>
-          <div class="small-card">
-            <p class="small-card-label">Typography</p>
-            <img
-              class="typo-card-img"
-              src="https://www.figma.com/api/mcp/asset/18ae7cde-3aac-4a04-92a8-391e108c0c0f.png"
-              alt="Typography scale preview"
-            />
-          </div>
+          <p style="margin-top: 16px;">This became the foundation for the visual direction that followed.</p>
         </div>
       </div>
-
-      <!-- Color system image -->
-      <div class="vis-lang-right">
-        <img
-          class="vis-lang-image"
-          src="https://www.figma.com/api/mcp/asset/07b3aee2-d397-4bb1-8001-aa76b3d0fa42.png"
-          alt="Color system visualization"
-        />
+      <div>
+        <img class="archetype-img" src="composition-archetype.png" alt="Archetype visualization" />
       </div>
     </div>
 
+    <!-- From archetype to visuals -->
+    <div class="from-archetype">
+      <h2>From archetype to visuals</h2>
+      <p>Once the archetype was set, I translated its qualities into a visual direction that feels calm, guiding, trustworthy, and friendly. Each visual decision was made to support this feeling and create a consistent experience across the app.</p>
+    </div>
 
-    <!-- ── Design Library ── -->
-    <div class="design-lib-inner">
-      <h2>Design Library</h2>
-      <p class="design-lib-body">
-        Every screen was built from this library — colors, typography, and icons defined once and reused across all components.
-      </p>
+    <!-- Brand color -->
+    <div class="brand-color-grid">
+      <div>
+        <h2>Brand color inspired by Kyoto's culture</h2>
+        <p class="brand-color-body">
+          The accent color was inspired by Kyoto's traditional torii gates. I chose vermilion because it
+          is strongly associated with Japanese culture and creates a recognizable connection to Kyoto while
+          remaining highly visible for important actions.
+        </p>
 
-      <div class="design-lib-cols">
-        <!-- Color system -->
-        <div>
-          <p class="lib-subsection-title">Color system</p>
-          <img
-            class="color-system-img"
-            src="https://www.figma.com/api/mcp/asset/d1f12cfe-9048-4b53-8f2c-cdaf8cab6116.png"
-            alt="Color system swatches"
-          />
-        </div>
-
-        <!-- Typography table + icons -->
-        <div>
-          <p class="lib-subsection-title">Typography</p>
-          <table class="type-table">
-            <thead>
-              <tr>
-                <th>Style name</th>
-                <th>Size / LH</th>
-                <th>Weight</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td class="td-name">Heading 1</td><td>22/28</td><td>Bold</td></tr>
-              <tr><td class="td-name">Heading 2</td><td>17/20</td><td>Bold</td></tr>
-              <tr><td class="td-name">Body Large Semibold</td><td>17/20</td><td>Semibold</td></tr>
-              <tr><td class="td-name">Body Large</td><td>17/20</td><td>Regular</td></tr>
-              <tr><td class="td-name">Body Semibold</td><td>15/20</td><td>Semibold</td></tr>
-              <tr><td class="td-name">Body</td><td>15/20</td><td>Regular</td></tr>
-              <tr><td class="td-name">Caption Semibold</td><td>13/16</td><td>Semibold</td></tr>
-              <tr><td class="td-name">Caption</td><td>13/16</td><td>Medium</td></tr>
-              <tr><td class="td-name">Body Small</td><td>13/16</td><td>Regular</td></tr>
-              <tr><td class="td-name">Label</td><td>12/12</td><td>Semibold</td></tr>
-            </tbody>
-          </table>
-
-          <div class="icons-section">
-            <p class="lib-subsection-title" style="margin-top:24px;">Icons</p>
-            <div class="icons-box">
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/b52792de-f3c1-4a51-8122-2a1bea9da271.svg" alt="icon" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/1930331b-cdfa-4e4d-a484-906590d2b63e.svg" alt="bicycle" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/96ef229f-5775-4a00-ad29-29a94a34c582.svg" alt="cable car" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/aded9931-dac1-4571-9f3a-6df7615c2095.svg" alt="taxi" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/a29b3d25-6081-4f06-b47b-5ad2076211c6.svg" alt="ship" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/4accdc35-39bb-4d17-99bc-bb7cb48c0497.svg" alt="bus" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/2d8fde2e-3199-4eb8-9560-ba5e1a450b57.svg" alt="metro" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/84d8f09e-f63b-4d5e-81f5-64d7c7f0d185.svg" alt="train" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/0b01ded0-740c-45b9-9c14-9cfcda860500.svg" alt="bookmark" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/4b88e53b-88f0-4326-b51e-314e9e4b0ff8.svg" alt="no routes" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/46b6cecc-9f1f-49fa-8b9a-c858ce9ec8e1.svg" alt="close" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/917e4735-caf0-46bd-bbf2-cdb98c954a26.svg" alt="check" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/dc4d2b77-090d-4d01-873a-eb6a655ada6e.svg" alt="chevron" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/8c2d9e49-0833-4bcf-ba87-58e06618f863.svg" alt="chevron" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/7986c1d7-a304-4234-a12a-34d9ae26fea3.svg" alt="walk" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/de37e29c-7cef-451c-8eeb-910b0a8a3007.svg" alt="chevron" />
-              <img class="icon-img" src="https://www.figma.com/api/mcp/asset/2ded28d1-3f40-48be-9443-16b4cba62bda.svg" alt="chevron" />
-            </div>
-          </div>
-
-          <!-- Phone screenshot from design library -->
-          <div class="phone-screenshot-wrap" style="margin-top:24px;">
-            <img
-              class="phone-screenshot"
-              src="https://www.figma.com/api/mcp/asset/bc54f039-a1f7-4533-9d00-bf908f998bf5.png"
-              alt="Design library phone screenshot"
-            />
-          </div>
-        </div>
       </div>
-    </div><!-- /design-lib-inner -->
+      <div>
+        <img class="brand-color-img" src="pic composition1.png" alt="Vermilion torii gate composition" />
+      </div>
+    </div>
 
-
-    <!-- ── Brand Colour ── -->
-    <div class="brand-colour-inner">
-      <div class="brand-colour-grid">
+    <!-- Complementary supporting color -->
+    <div class="complement-section">
+      <div class="complement-grid">
         <div>
-          <h2>Brand colour grounded in Kyoto's landmarks</h2>
-          <p class="brand-colour-body">
-            The accent color was inspired by Kyoto's traditional torii gates. I chose vermilion because it
-            is strongly associated with Japanese culture and creates a recognizable visual identity while
-            remaining highly visible for important actions.
+          <h2>A complementary supporting color</h2>
+          <p class="complement-body">
+            To balance the warm vermilion, I introduced a cool supporting blue. The combination creates
+            a balance between the warm cultural reference and the calm, trustworthy feeling I wanted for SenGo.
           </p>
-          <div class="vermilion-swatch">
-            <div class="vermilion-color-block"></div>
-            <span class="vermilion-hex">#C04028</span>
-          </div>
         </div>
         <div>
-          <img
-            class="torii-img"
-            src="https://www.figma.com/api/mcp/asset/7085973f-2a92-400b-aa5a-3b2cff4a106d.png"
-            alt="Kyoto torii gate"
-          />
+          <img class="brand-color-img" src="pic composition.png" alt="Blue supporting color composition" />
         </div>
       </div>
-    </div><!-- /brand-colour-inner -->
+    </div>
+
+    <!-- Typography -->
+    <div class="typography-section">
+      <div class="typography-grid">
+        <div>
+          <h2>Typography</h2>
+          <p class="typography-body">
+            I chose a clean sans‑serif typeface to keep route details readable at a glance, especially while moving.
+            Clear hierarchy helps users quickly spot the next step, time, and key actions.
+          </p>
+        </div>
+        <div class="typography-card">
+          <img src="typography.png" alt="Typography scale" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Motion -->
+    <div class="motion-section">
+      <div class="motion-grid">
+        <div>
+          <h2>Motion</h2>
+          <p class="motion-body">
+            I kept motion subtle and functional, using smooth transitions to support feedback without
+            distracting users during navigation. I used Ease Out for these transitions because it creates
+            a smooth, natural-feeling movement as elements settle into their final state.
+          </p>
+        </div>
+        <div>
+          <img class="motion-img" src="EASE_OUT_CURVE.gif" alt="Ease out curve" />
+        </div>
+      </div>
+    </div>
 
   </section>
 
@@ -975,19 +852,23 @@
   ════════════════════════════════════════ -->
   <section id="core-flows">
 
-    <span class="section-label">Core Flows</span>
+    <div class="flow-intro">
+      <span class="section-label">Design Concept</span>
+      <h2>From visual language to design concept</h2>
+      <p>With the visual direction defined, I moved on to the core user journey. I focused on the main user scenario and designed the complete flow, with five key moments highlighted below.</p>
+    </div>
 
     <!-- Home Discovery -->
-    <div class="flow-item" style="border-top:none; padding-top:24px;">
+    <div class="flow-item" style="border-top: none;">
       <div class="flow-text">
         <h3>Home Discovery</h3>
-        <p>A tourist doesn't just need a list of routes — they need to see where each one goes. Swiping through route cards highlights the path on the map above, so choosing a route is spatial.</p>
+        <p>A tourist doesn't just need a list of routes — they also need to understand where each route goes. Swiping through the route cards highlights the corresponding path on the map, making route selection more visual.</p>
       </div>
       <div class="flow-phone-wrap">
         <div class="flow-phone">
           <div class="flow-phone-inner">
-            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
-              <source src="Video-home.mp4" type="video/mp4" />
+            <video autoplay loop muted playsinline>
+              <source src="home-scroll.mp4" type="video/mp4" />
             </video>
           </div>
         </div>
@@ -998,13 +879,13 @@
     <div class="flow-item">
       <div class="flow-text">
         <h3>Routes Catalogue</h3>
-        <p>With seven transport types available, the list can get overwhelming fast. Filters let users narrow down by transport, difficulty, or duration — and selected filters stay visible so it's always clear what's being applied.</p>
+        <p>I designed a catalogue of all available routes in the app. To help users quickly find what they're looking for, I created a simple filtering system where each filter can be selected with one tap and cleared just as quickly.</p>
       </div>
       <div class="flow-phone-wrap">
         <div class="flow-phone">
           <div class="flow-phone-inner">
-            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
-              <source src="Video3.mp4" type="video/mp4" />
+            <video autoplay loop muted playsinline>
+              <source src="catalogue.mp4" type="video/mp4" />
             </video>
           </div>
         </div>
@@ -1015,13 +896,13 @@
     <div class="flow-item">
       <div class="flow-text">
         <h3>Routes Details &amp; Buying Tickets</h3>
-        <p>Before heading out, a tourist needs more details about route and buy their fare. All tickets for a multi-transport route can be purchased in one step — no switching between apps or screens.</p>
+        <p>Once a route is selected, users need enough information to decide whether it works for them and get the required tickets. I kept these steps within one flow and allowed users to purchase all tickets needed for a multi-transport route together.</p>
       </div>
       <div class="flow-phone-wrap">
         <div class="flow-phone">
           <div class="flow-phone-inner">
-            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
-              <source src="Video4.mp4" type="video/mp4" />
+            <video autoplay loop muted playsinline>
+              <source src="route-details.mp4" type="video/mp4" />
             </video>
           </div>
         </div>
@@ -1032,33 +913,31 @@
     <div class="flow-item">
       <div class="flow-text">
         <h3>Active Navigation</h3>
-        <p>Once on the move, the priority shifts: less reading, faster access. All tickets for route are one tap away from the navigation screen — ready to show at the gate without searching.</p>
+        <p>Once the journey starts, the priority changes. Users need less information and faster access to guidance. So I focused the screen on the current journey and the next action, reducing the amount of information users need to process while moving.</p>
       </div>
       <div class="flow-phone-wrap">
         <div class="flow-phone">
           <div class="flow-phone-inner">
-            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
-              <source src="Video2.mp4" type="video/mp4" />
+            <video autoplay loop muted playsinline>
+              <source src="active-nav.mp4" type="video/mp4" />
             </video>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Finish Route -->
+    <!-- Show ticket while boarding -->
     <div class="flow-item">
       <div class="flow-text">
-        <h3>Finish Route</h3>
-        <p>Trip complete — time taken, sights visited, and a clear next action. The route can be saved or reversed for the return journey.</p>
+        <h3>Show ticket while boarding</h3>
+        <p>And when it's time to board, the ticket is available directly from the navigation screen. This means users don't have to leave the journey or search for their ticket when they need it.</p>
       </div>
       <div class="flow-phone-wrap">
         <div class="flow-phone">
           <div class="flow-phone-inner">
-            <img
-              src="https://www.figma.com/api/mcp/asset/cd7d94ae-7e6e-4a42-8cc7-31cc63234ae0.png"
-              alt="Finish route screen"
-              style="width:100%;height:100%;object-fit:cover;"
-            />
+            <video autoplay loop muted playsinline>
+              <source src="boarding.mp4" type="video/mp4" />
+            </video>
           </div>
         </div>
       </div>
@@ -1073,66 +952,76 @@
   <section id="usability-testing">
 
     <span class="section-label">Usability Testing</span>
-    <h2>Transport Filters</h2>
+    <h2 style="text-align:center; max-width:640px; margin-left:auto; margin-right:auto; margin-bottom:18px;">Validating design concept</h2>
     <p class="usability-desc">
-      Testing the first prototype with real users revealed two major UX friction points in the route search process.
+      I conducted usability testing to evaluate the core user scenario, focusing on route discovery,
+      filtering, ticket purchase, and navigation. Both participants were able to complete the main tasks,
+      while the testing revealed two usability issues in the filtering experience.
     </p>
 
-    <!-- Issue cards -->
-    <div class="issue-cards">
-      <div class="issue-card">
-        <p>Users wanted to see their active filters on the main screen to know what filter they chose.</p>
+    <!-- Insight 1 -->
+    <div class="insight-block">
+      <h3 class="insight-label">Insight 1</h3>
+      <p class="insight-text">
+        Users wanted to see exactly which filters they had selected on the main screen. In the first version,
+        a number badge showed how many filters were active, but it didn't tell users which filters they were.
+      </p>
+
+      <div class="ba-row-wrap">
+        <img class="ba-row-bg" src="Frame 16.png" alt="" />
+        <div class="ba-row-inner">
+          <div class="ba-item">
+            <div class="phone-frame-wrap">
+              <img class="pf-screen" src="before1.png" alt="Before — filter badge" />
+              <img class="pf-frame" src="https://www.figma.com/api/mcp/asset/7e9da782-ed25-4c1e-8390-f51131ce0290.png" alt="" />
+            </div>
+            <span class="ba-label">Before</span>
+          </div>
+          <div class="ba-item">
+            <div class="phone-frame-wrap">
+              <img class="pf-screen" src="after1.png" alt="After — filter badge" />
+              <img class="pf-frame" src="https://www.figma.com/api/mcp/asset/7e9da782-ed25-4c1e-8390-f51131ce0290.png" alt="" />
+            </div>
+            <span class="ba-label">After</span>
+          </div>
+        </div>
       </div>
-      <div class="issue-card">
-        <p>Checkbox states were hard to recognize, transport labels were hard to scan, and tap targets were too narrow.</p>
+
+      <div class="solution-card">
+        <p><strong>Solution</strong><br>I replaced the number badge with interactive filter chips that show the selected filters directly. This makes the current filter state easier to understand at a glance.</p>
       </div>
     </div>
 
-    <!-- Before / After — Filter badge -->
-    <div class="ba-pair">
-      <div class="before-after-row">
-        <div class="ba-item">
-          <div class="phone-frame-wrap">
-            <img class="pf-screen" src="https://www.figma.com/api/mcp/asset/61efbcb9-bb63-43ad-931f-8d41eeb1f0e1.png" alt="Before — filter badge" />
-            <img class="pf-frame" src="https://www.figma.com/api/mcp/asset/7e9da782-ed25-4c1e-8390-f51131ce0290.png" alt="Phone frame" />
-          </div>
-          <span class="ba-label">Before</span>
-        </div>
-        <div class="ba-item">
-          <div class="phone-frame-wrap">
-            <img class="pf-screen" src="https://www.figma.com/api/mcp/asset/bcd275b8-d755-4a52-8992-c53bf8030762.png" alt="After — filter badge" />
-            <img class="pf-frame" src="https://www.figma.com/api/mcp/asset/7e9da782-ed25-4c1e-8390-f51131ce0290.png" alt="Phone frame" />
-          </div>
-          <span class="ba-label">After</span>
-        </div>
-      </div>
-      <div class="solution-block">
-        <span class="solution-label-text">Solution</span>
-        <p class="solution-desc">Replaced the number badge with interactive chips that shows chosen filter inside instead of the label.</p>
-      </div>
-    </div>
+    <!-- Insight 2 -->
+    <div class="insight-block">
+      <h3 class="insight-label">Insight 2</h3>
+      <p class="insight-text">
+        Users found it difficult to scan transport types when they were presented mainly as text.
+        It took longer to identify the options, and it wasn't always clear which transport type was selected.
+      </p>
 
-    <!-- Before / After — Filter modal -->
-    <div class="ba-pair">
-      <div class="before-after-row">
-        <div class="ba-item">
-          <div class="phone-frame-wrap">
-            <img class="pf-screen" src="https://www.figma.com/api/mcp/asset/767c0444-cbe2-4ada-a701-e32a2b768a99.png" alt="Before — filter modal" />
-            <img class="pf-frame" src="https://www.figma.com/api/mcp/asset/7e9da782-ed25-4c1e-8390-f51131ce0290.png" alt="Phone frame" />
+      <div class="ba-row-wrap">
+        <img class="ba-row-bg" src="Frame 16.png" alt="" />
+        <div class="ba-row-inner">
+          <div class="ba-item">
+            <div class="phone-frame-wrap">
+              <img class="pf-screen" src="before2.png" alt="Before — filter modal" />
+              <img class="pf-frame" src="https://www.figma.com/api/mcp/asset/7e9da782-ed25-4c1e-8390-f51131ce0290.png" alt="" />
+            </div>
+            <span class="ba-label">Before</span>
           </div>
-          <span class="ba-label">Before</span>
-        </div>
-        <div class="ba-item">
-          <div class="phone-frame-wrap">
-            <img class="pf-screen" src="https://www.figma.com/api/mcp/asset/e642a660-f0ed-4041-9360-767e4347800d.png" alt="After — filter modal" />
-            <img class="pf-frame" src="https://www.figma.com/api/mcp/asset/7e9da782-ed25-4c1e-8390-f51131ce0290.png" alt="Phone frame" />
+          <div class="ba-item">
+            <div class="phone-frame-wrap">
+              <img class="pf-screen" src="after2.png" alt="After — filter modal" />
+              <img class="pf-frame" src="https://www.figma.com/api/mcp/asset/7e9da782-ed25-4c1e-8390-f51131ce0290.png" alt="" />
+            </div>
+            <span class="ba-label">After</span>
           </div>
-          <span class="ba-label">After</span>
         </div>
       </div>
-      <div class="solution-block">
-        <span class="solution-label-text">Solution</span>
-        <p class="solution-desc">Redesigned the modal into an icon grid with visual badges, a "Clear all" action, and a prominent "Apply" button.</p>
+
+      <div class="solution-card">
+        <p><strong>Solution</strong><br>I redesigned the transport filters using icons with labels underneath. I also used color to make selected and unselected states visually distinct, and added a "Clear all" action for quickly removing all selections.</p>
       </div>
     </div>
 
@@ -1145,15 +1034,31 @@
   <section id="result">
 
     <span class="section-label">Result</span>
-    <h2 class="result-heading">A complete visual system and a tested end-to-end experience.</h2>
+    <h2 class="result-heading">A complete visual concept and a tested end-to-end experience.</h2>
     <p class="result-body">
-      Built a reusable design library from scratch and used it across all high-fidelity screens.
-      Testing with two participants revealed two usability issues, which were redesigned before delivery.
+      I designed the screens for the complete key user scenario, from discovering a route to boarding the transport,
+      and developed the visual direction across the experience. Testing with two participants revealed two usability
+      issues, which I addressed before delivery.
     </p>
 
   </section>
 
 </main>
+
+</div><!-- /.content-wrap -->
+
+<div class="bottom-section">
+  <img class="bottom-bg" src="bottom.png" alt="" />
+  <div class="bottom-phone">
+    <div class="phone-device">
+      <div class="phone-screen">
+        <video autoplay loop muted playsinline>
+          <source src="active-nav.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ─── Scroll spy ─── -->
 <script>
@@ -1175,3 +1080,4 @@
 
 </body>
 </html>
+
