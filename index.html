@@ -112,6 +112,8 @@
       padding: 0 120px;
       gap: 48px;
       align-items: start;
+      max-width: 1600px;
+      margin: 0 auto;
     }
 
     /* ─── Sidebar ─── */
@@ -631,6 +633,14 @@
     }
 
     /* ─── Responsive — iPad (≤ 1024px) ─── */
+    @media (max-width: 1280px) {
+      .content-wrap { padding: 0 60px; }
+      .flow-phone { width: 260px; height: 535px; border-radius: 44px; }
+      .flow-phone-inner { border-radius: 41px; }
+      .flow-item { grid-template-columns: 1fr 260px; gap: 36px; }
+      .complement-grid { grid-template-columns: 1fr 460px; }
+    }
+
     @media (max-width: 1024px) {
       .content-wrap {
         grid-template-columns: 1fr;
@@ -1224,6 +1234,25 @@
 
     prevBtn.addEventListener('click', () => goTo(current - 1));
     nextBtn.addEventListener('click', () => goTo(current + 1));
+  });
+</script>
+
+<script>
+  const videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const video = entry.target;
+      if (entry.isIntersecting) {
+        video.currentTime = 0;
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: 0.4 });
+
+  document.querySelectorAll('video').forEach(video => {
+    video.removeAttribute('autoplay');
+    videoObserver.observe(video);
   });
 </script>
 
