@@ -108,9 +108,9 @@
     /* ─── Content wrap — 12-col grid (1920: margin 120, gutter 48, sidebar 240, main 1392) ─── */
     .content-wrap {
       display: grid;
-      grid-template-columns: 240px 1fr;
-      padding: 0 120px;
-      gap: 48px;
+      grid-template-columns: 200px 1fr;
+      padding: 0 100px;
+      gap: 28px;
       align-items: start;
       max-width: 1600px;
       margin: 0 auto;
@@ -120,8 +120,8 @@
     .sidebar {
       position: sticky;
       top: 0;
-      width: 240px;
-      min-width: 240px;
+      width: 200px;
+      min-width: 200px;
       height: 100vh;
       padding: 48px 24px;
       display: flex;
@@ -177,7 +177,7 @@
       width: 100%;
     }
     #visual-language,
-    #core-flows,
+    #design-concept,
     #usability-testing,
     #result {
       border-top: 1px solid var(--border);
@@ -247,7 +247,7 @@
       font-weight: 600;
       line-height: 1.15;
       margin-bottom: 20px;
-      max-width: 680px;
+      max-width: 750px;
     }
 
     .overview-body {
@@ -362,7 +362,7 @@
     .complement-grid {
       display: grid;
       grid-template-columns: 1fr 560px;
-      gap: 10px;
+      gap: 0px;
       align-items: start;
     }
     .complement-grid .brand-color-img {
@@ -499,7 +499,7 @@
     .insight-text {
       font-size: 16px;
       line-height: 1.8;
-      max-width: 680px;
+      max-width: 780px;
       margin-bottom: 32px;
     }
 
@@ -561,7 +561,7 @@
       border: 1px solid var(--border);
       border-radius: 21px;
       padding: 20px 24px;
-      max-width: 700px;
+      max-width: 800px;
       margin: 0 auto;
     }
     .solution-card p { font-size: 16px; line-height: 1.8; }
@@ -634,7 +634,7 @@
 
     /* ─── Responsive — iPad (≤ 1024px) ─── */
     @media (max-width: 1280px) {
-      .content-wrap { padding: 0 60px; }
+      .content-wrap { padding: 0 48px; }
       .flow-phone { width: 260px; height: 535px; border-radius: 44px; }
       .flow-phone-inner { border-radius: 41px; }
       .flow-item { grid-template-columns: 1fr 260px; gap: 36px; }
@@ -837,7 +837,7 @@
     <ul class="nav-list">
       <li><a href="#overview" class="active">Project overview</a></li>
       <li><a href="#visual-language">Visual language</a></li>
-      <li><a href="#core-flows">Core Flows</a></li>
+      <li><a href="#design-concept">Design Concept</a></li>
       <li><a href="#usability-testing">Usability Testing</a></li>
       <li><a href="#result">Result</a></li>
     </ul>
@@ -857,8 +857,7 @@
       <span class="section-label">Project Overview</span>
       <h2 class="overview-title">Making city exploration effortless with&nbsp;<strong>SenGo</strong></h2>
       <p class="overview-body">
-        <strong>SenGo</strong> is a transit companion for tourists in Kyoto — designed to make public
-        transport, complex fare rules, and real-time travel guidance feel understandable from the first screen.
+        <strong>SenGo</strong> is a transit companion for tourists in Kyoto — designed to make public transport, complex fare rules, and real-time travel guidance feel understandable from the first screen.
       </p>
     </div>
 
@@ -886,8 +885,8 @@
     <div class="goals-card">
       <p class="goals-title">Goals</p>
       <ul class="goals-list">
-        <li><b>Establish a visual hierarchy</b> — use size, color, and layout to guide users through the app.</li>
-        <li><b>Create a design concept</b> — bring the idea to life with a clear look and feel and a consistent layout approach.</li>
+        <li><b>Define a clear visual language</b> — using color, typography and motion to create a calm and approachable experience.</li>
+        <li><b>Create design concept</b> — bring the idea to life with a clear look and feel and a consistent layout approach.</li>
         <li><b>Validate the core user flow with users</b> — check that people can find a route, buy tickets and navigate without confusion.</li>
       </ul>
     </div>
@@ -1003,9 +1002,9 @@
 
 
   <!-- ════════════════════════════════════════
-       SECTION 3 — CORE FLOWS
+       SECTION 3 — DESIGN CONCEPT
   ════════════════════════════════════════ -->
-  <section id="core-flows">
+  <section id="design-concept">
 
     <div class="flow-intro">
       <span class="section-label">Design Concept</span>
@@ -1034,7 +1033,7 @@
     <div class="flow-item">
       <div class="flow-text">
         <h3>Routes Catalogue</h3>
-        <p>I designed a catalogue of all available routes in the app. To help users quickly find what they're looking for, I created a simple filtering system where each filter can be selected with one tap and cleared just as quickly.</p>
+        <p>I designed a catalogue of all available routes in the app. To help users quickly find what they're looking for, I created a simple filtering system where each filter can be selected with one tap, so users can easily adjust their search.</p>
       </div>
       <div class="flow-phone-wrap">
         <div class="flow-phone">
@@ -1050,7 +1049,7 @@
     <!-- Routes Details and Buying Tickets -->
     <div class="flow-item">
       <div class="flow-text">
-        <h3>Routes Details &amp; Buying Tickets</h3>
+        <h3>Routes Details and Buying Tickets</h3>
         <p>Once a route is selected, users need enough information to decide whether it works for them and get the required tickets. For multi-transport routes, I introduced the option to purchase all required tickets together. This supports the Caregiver direction by taking care of this complexity for the user, so they don't have to manage each ticket separately.</p>
       </div>
       <div class="flow-phone-wrap">
